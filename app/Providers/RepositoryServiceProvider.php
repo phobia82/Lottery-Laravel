@@ -2,9 +2,9 @@
 namespace App\Providers;
 
 use App\Repositories\EventRepository;
-use App\Interfaces\EventRepositoryInterface;
-use App\Repositories\TarjetaRepository;
-use App\Interfaces\TarjetaRepositoryInterface;
+use App\Contracts\EventRepositoryInterface;
+use App\Repositories\CardRepository;
+use App\Contracts\CardRepositoryInterface;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -20,8 +20,8 @@ class RepositoryServiceProvider extends ServiceProvider
             EventRepository::class
         );
         $this->app->bind(
-            TarjetaRepositoryInterface::class,
-            TarjetaRepository::class
+            CardRepositoryInterface::class,
+            CardRepository::class
         );
     }
 }

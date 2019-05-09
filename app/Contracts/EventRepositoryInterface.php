@@ -1,14 +1,12 @@
 <?php
  
-namespace App\Interfaces;
+namespace App\Contracts;
  
 interface EventRepositoryInterface
 {
-	function getAllEvents();
+	function all();
  
-	function getById($id, bool $ended = FALSE);
-	
-	function create(array $attributes);
+	function getById($id);
 	
 	function updateOrCreate(array $where, array $attributes);
  

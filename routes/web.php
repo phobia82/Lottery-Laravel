@@ -19,4 +19,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/eventos', 'EventoController@index')->name('eventos')->middleware('auth');
+Route::get('/eventos/{id}', 'EventoController@show')->name('evento')->middleware('auth');
+Route::put('/cards/select/', 'CardController@update')->name('card')->middleware('auth');
 

@@ -51,7 +51,7 @@
                                 <li><a class="nav-link" href="{{ route('login') }}">Login</a></li>
                                 <li><a class="nav-link" href="{{ route('register') }}">Register</a></li>
                             @else
-                                <li><a class="nav-link" href="{{ route('eventos') }}">{{__('Eventos') }}</a></li>
+                                <li><a class="nav-link" href="{{ route('eventos') }}">{{__('Events') }}</a></li>
 								@if(Auth::user()->admin)
                                 <li><a class="nav-link" href="{{ route('users') }}">{!! trans('laravelusers::app.nav.users') !!}</a></li>
 								@endif

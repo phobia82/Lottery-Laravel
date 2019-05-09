@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Interfaces\EventRepositoryInterface;
+use App\Contracts\EventRepositoryInterface;
 use Illuminate\Http\Request;
 
 class EventoController extends Controller
@@ -22,7 +22,20 @@ class EventoController extends Controller
      */
     public function index()
     {
-        return $this->eventRepository->getAllEvents();
-        return view('home');
+        $events = $this->eventRepository->all();
+        return view('events', ['events'=>$events]);
     }
+	
+    /**
+     * Display the specified event.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $event = $this->eventRepository->getById($id);
+        return view('event', ['event'=>$event]);
+    } 
+
 }

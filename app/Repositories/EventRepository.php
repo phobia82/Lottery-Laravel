@@ -2,23 +2,31 @@
  
 namespace App\Repositories;
  
-use App\Interfaces\EventRepositoryInterface;
+use App\Contracts\EventRepositoryInterface;
+use App\Contracts\CardRepositoryInterface;
 use App\Adapters\WebApi;
+use App\Event;
  
 class EventRepository implements EventRepositoryInterface
 {
 	/**
-	 * @var $model
+	 * @var $eventsApi
 	 */
 	private $eventsApi;
  
 	/**
+	 * @var $model
+	 */
+	private $model;
+ 
+	/**
 	 * EloquentTask constructor.
 	 *
-	 * @param App\Evento $model
+	 * @param App\Event $model
 	 */
-	public function __construct()
+	public function __construct(Event $model)
 	{
+		$this->model = $model;
 		$this->eventsApi = new WebApi();
 	}
  
@@ -27,7 +35,7 @@ class EventRepository implements EventRepositoryInterface
 	 *
 	 * @return Illuminate\Database\Eloquent\Collection
 	 */
-	public function getAllEvents()
+	public function all()
 	{
 		return $this->eventsApi->getEvents();
 	}
@@ -39,33 +47,24 @@ class EventRepository implements EventRepositoryInterface
 	 *
 	 * @return App\Evento
 	 */
-	public function getById($id, bool $ended = FALSE)
+	public function getById($id)
 	{
-        $eventsApi = new EventsAPI();
-		$json = $ended ? $eventsApi->getEndedById($id) : $eventsApi->getById($id);
-		$evento = $this->model->updateOrCreate(
-			['id' => $id], ['id' => $id, 'NameEvent' => $json['NameEvent'], 'StartDate' => $json['StartDate'], 'StartTime' => $json['StartTime']]
+		//Get remote event
+        $event = $this->eventsApi->getById($id);
+		//Create or update local event
+		$db_event = $this->updateOrCreate(
+			['id' => $id], ['id' => $id, 'name' => $event['NameEvent'], 'start' => $event['StartDate']]
 		);
-        $tarjetas = $evento->tarjetas->pluck('tarjetas_id')->all();
-        foreach($json['Tarjetas'] as $k=>$tarjeta){
-            $json['Tarjetas'][$k]['asignada'] = in_array($tarjeta['Id'],$tarjetas);
+		//Get taken cards
+		$cards = $db_event->cards->pluck('id')->all();
+		//Remove taken cards from array
+        foreach($event['Tarjetas'] as $k=>$card){
+			if(in_array($card['Id'],$cards)) unset($event['Tarjetas'][$k]);
         }
-		$evento->Tarjetas = $json['Tarjetas'];
-        return $evento;
+        return $event;
 	}
  
-	/**
-	 * Create a new Evento.
-	 *
-	 * @param array $attributes
-	 *
-	 * @return App\Evento
-	 */
-	public function create(array $attributes)
-	{
-		return $this->model->create($attributes);
-	}
- 
+
 	/**
 	 * Update an Evento.
 	 *

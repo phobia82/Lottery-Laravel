@@ -2,7 +2,7 @@
  
 namespace App\Adapters;
  
-use App\Interfaces\WebApiInterface;
+use App\Contracts\WebApiInterface;
 use GuzzleHttp\Client;
  
 class WebAPI implements WebApiInterface
@@ -29,7 +29,7 @@ class WebAPI implements WebApiInterface
 	public function getEvents()
 	{
 		$response = $this->client->request('GET', config('webapi.events'));
-		return $this->decode($response);
+		return $this->response($response);
 	}
  
 	/**
@@ -39,10 +39,10 @@ class WebAPI implements WebApiInterface
 	 *
 	 * @return String
 	 */
-	public function getEventById($id)
+	public function getById($id)
 	{
-		$json = file_get_contents($this->url.'Eventos/'.$id);
-		return $this->decode($json);
+		$response = $this->client->request('GET', config('webapi.events').'/'.$id);
+		return $this->response($response);
 	}
  
 	/**
@@ -52,7 +52,7 @@ class WebAPI implements WebApiInterface
 	 *
 	 * @return String
 	 */
-	public function getAllEventsEnded()
+	public function getEnded()
 	{
 		$json = file_get_contents($this->url.'EventosFinales');
 		return $this->decode($json);
@@ -65,18 +65,18 @@ class WebAPI implements WebApiInterface
 	 *
 	 * @return String
 	 */
-	public function getEventEndedById($id)
+	public function getEndedById($id)
 	{
 		$json = file_get_contents($this->url.'EventosFinales/'.$id);
 		return $this->decode($json);
 	}
  
 	/**
-	 * Decode response
+	 * Response
 	 *
 	 * @return Object/Array
 	 */
-	private function decode($response , bool $assoc = TRUE)
+	private function response($response , bool $assoc = TRUE)
 	{
 		return json_decode($response->getBody()->getContents(), $assoc);
 	}
