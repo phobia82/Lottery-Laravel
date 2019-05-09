@@ -15,6 +15,20 @@ class CardController extends Controller
     }
 
     /**
+     * My own cards.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $cards = $this->cardRepository->myCards();
+        return view('cards', $cards);
+    }
+
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

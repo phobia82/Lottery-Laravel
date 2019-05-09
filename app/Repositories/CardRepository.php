@@ -24,6 +24,21 @@ class CardRepository implements CardRepositoryInterface
  
  
 	/**
+	 * Get my cards
+	 *
+	 * @param null
+	 *
+	 * @return App\Card
+	 */
+	public function myCards()
+	{
+        $pending = \Auth::user()->cards()->whereNull('status')->with('event')->get();
+        $finished = \Auth::user()->cards()->whereNotNull('status')->with('event')->get();
+		return ['pending'=>$pending, 'finished'=>$finished];
+	}
+ 
+ 
+	/**
 	 * Get Card by id.
 	 *
 	 * @param integer $id

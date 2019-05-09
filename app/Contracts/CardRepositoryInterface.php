@@ -5,6 +5,8 @@ namespace App\Contracts;
 interface CardRepositoryInterface
 {
 
+	function myCards();
+
 	function getById($id);
 	
 	function create(array $attributes);
