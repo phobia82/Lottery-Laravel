@@ -22,15 +22,6 @@ class CardRepository implements CardRepositoryInterface
 		$this->model = $model;
 	}
  
-	/**
-	 * Get all cards.
-	 *
-	 * @return Illuminate\Database\Eloquent\Collection
-	 */
-	public function all()
-	{
-		return $this->model->all();
-	}
  
 	/**
 	 * Get Card by id.
@@ -41,7 +32,7 @@ class CardRepository implements CardRepositoryInterface
 	 */
 	public function getById($id)
 	{
-        return $this->model->find($id);
+        \Auth::user()->cards()->find($id);
 	}
  
  
@@ -61,6 +52,21 @@ class CardRepository implements CardRepositoryInterface
 		]);
 	}
  
+	/**
+	 * Update a Card.
+	 *
+	 * @param integer $id
+	 * @param array $attributes
+	 *
+	 * @return App\Card
+	 */
+	public function update($id, array $attributes)
+	{
+		$card = $this->model->find($id);
+		if($card)
+			return $card->update($attributes);
+	}
+
 	/**
 	 * Update a Card.
 	 *

@@ -3,7 +3,6 @@
 namespace App\Repositories;
  
 use App\Contracts\EventRepositoryInterface;
-use App\Contracts\CardRepositoryInterface;
 use App\Adapters\WebApi;
 use App\Event;
  

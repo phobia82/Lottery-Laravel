@@ -14,5 +14,8 @@ return [
     // Events path
     'events'     => 'Eventos', 
 
+    // Events path
+    'finished'     => 'EventosFinales', 
+
 
 ];

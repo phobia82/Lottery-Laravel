@@ -54,8 +54,8 @@ class WebAPI implements WebApiInterface
 	 */
 	public function getEnded()
 	{
-		$json = file_get_contents($this->url.'EventosFinales');
-		return $this->decode($json);
+		$response = $this->client->request('GET', config('webapi.finished'));
+		return $this->response($response);
 	}
  
 	/**
@@ -67,8 +67,8 @@ class WebAPI implements WebApiInterface
 	 */
 	public function getEndedById($id)
 	{
-		$json = file_get_contents($this->url.'EventosFinales/'.$id);
-		return $this->decode($json);
+		$response = $this->client->request('GET', config('webapi.finished').'/'.$id);
+		return $this->response($response);
 	}
  
 	/**
