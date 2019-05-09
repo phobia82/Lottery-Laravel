@@ -43,7 +43,7 @@ Start the local development server
 
     php artisan serve
 
-Edit config/webapi.php config settings to match WebApi url
+Edit `config/webapi.php` config settings to match WebApi url
 
 Acceder al sitio en http://localhost:8000
 
