@@ -16,7 +16,6 @@ class CreateCardsTable extends Migration
         Schema::create('cards', function (Blueprint $table) {
             $table->integer('id');
             $table->string('name');
-            $table->integer('card_id');
             $table->integer('user_id');
             $table->integer('event_id');
             $table->boolean('status')->nullable();
